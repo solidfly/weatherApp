@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Local Weather App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <script
+    src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous">
+  </script>
+  <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyBEkUfKIk9Tdw-MMg1auhk4aF3tSNNkoVM"></script>
+
+  <script>
+
+      // check geolocation support
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by this browser")
+    }
+
+      // ask permission to access user location
+    navigator.geolocation.getCurrentPosition(success, error);
+     // If location access granted
+    function success(position) {
+      var lat = position.coords.latitude;
+      var lng = position.coords.longitude;
+     // else if location access denied
+    function error() {
+      alert("Allow browser to access your location!");
+    }
+    $("#lat").html(lat);
+
+
+
+      //add GoogleMaps API to get city, country.
+    var url = "https://maps.google.com/maps/api/geocode/json?latlng="+ lat + "," + lng;
+    $.getJSON(url, function(data) {
+       var arr_address_comp = data.results[0].address_components;
+       arr_address_comp.forEach(function(val) {
+          if(val.types[0] === "locality" ){
+             cityName = val.long_name;
+          }
+          if(val.types[0] === "country" ){
+             countryCode = val.short_name;
+             countryName = val.long_name;
+          }
+       });
+       //set your tag element where you will describethe location
+       $("#weather-location").text(cityName + ", " + countryName);
+    });
+
+      //get Darksky API dataType
+    function getWeatherData(lat, long) {
+      var apiKey = "7b3519746f900ef3c719c52691caf255";
+      var exclude = "?exclude=minutely,hourly,daily,alerts,flags";
+      var unit ="?units=si";
+      var url = "https://api.darksky.net/forecast/" + apiKey + "/" + lat + "," + long + exclude + unit;
+      $.ajax({
+        url: url,
+        dataType: "jsonp",
+        success: function (weatherData) {
+          var icon = weatherData.currently.icon;
+         //weather description
+         var description = weatherData.currently.summary;
+         //change background image
+         //temperature
+         var temperature = weatherData.currently.temperature;
+       }
+     });
+  }
+  $("#currentWeather").text(weatherData.currently.summary);
+  $("#currentTemp").val(weatherData.currently.temperature);
+  }
+  </script>
+
+</head>
+<body>
+
+  <div id="weather-location">
+
+  </div>
+  <div id="lat"></div>
+  <div id="long"></div>
+  <div id="city"></div>
+  <div id="country"></div>
+  <div id="currentWeather"></div>
+  <div id="currentTemp"></div>
+
+
+</body>
+</html>
