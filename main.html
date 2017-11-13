@@ -14,16 +14,20 @@
   <body>
 
     <script>
+      // get user location
       $.getJSON("http://ip-api.com/json/?fields=city,country,lat,lon", function getUserLocation(data) {
         $('#city').html(data.city);
         $('#country').html(data.country);
-        var lat = data.lat;
-        var lon = data.lon;
+        var lat = data.lat;  // declare latitude
+        var lon = data.lon; // declare longtitude
+        
+          // get local weather data
           function getWeatherData(lat, lon) {
             var apiKey = "7b3519746f900ef3c719c52691caf255";
             var exclude = "?exclude=minutely,hourly,daily,alerts,flags";
             var unit ="?units=si";
-            var url = "https://api.darksky.net/forecast/" + apiKey + "/" + lat + "," + lon + exclude + unit;
+            // this is putting lat & lon in as undefined even though they are defined above ???
+            var url = "https://api.darksky.net/forecast/" + apiKey + "/" + lat + "," + lon + exclude + unit; 
 
             $.ajax({
               url: url,
