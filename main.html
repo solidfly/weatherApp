@@ -18,12 +18,11 @@
       $.getJSON("http://ip-api.com/json/?fields=city,country,lat,lon", function getUserLocation(data) {
         $('#city').html(data.city);
         $('#country').html(data.country);
-        var lat = data.lat;  // declare latitude
-        var lon = data.lon; // declare longtitude
+        var lat = data.lat;
+        var lon = data.lon;
         
           // get local weather data
           function getWeatherData(lat, lon) {
-            //lat and lon are "undefined" in this function.  Why?
             var apiKey = "7b3519746f900ef3c719c52691caf255";
             var exclude = "?exclude=minutely,hourly,daily,alerts,flags";
             var unit ="?units=si";
@@ -35,12 +34,10 @@
               success: function(weatherData) {
                 $('#currentWeather').text(weatherData.currently.summary)
                 $('#currentTemp').val(weatherData.currently.temperature);
-                //console.log(url);  // lat & lon are undefined within the url.
               }
             });
           }
-        getWeatherData();
-        //console.log(lat);  //lat is defined!
+        getWeatherData(lat, lon);
       });
     </script>
 
