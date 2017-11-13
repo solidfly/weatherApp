@@ -12,19 +12,22 @@
     <body>
 
       <script>
-
-      // get city and country
-      $.getJSON("http://ip-api.com/json/?fields=city,country,lat,lon", function(data) {
+        var lat;
+        var lon;
+      
+          // get city and country
+      $.getJSON("http://ip-api.com/json/?fields=city,country,lat,lon", function getCC(data) {
         var city = data.city;
         var country = data.country;
-        var lat = data.lat;
-        var lon = data.lon;
+        lat = data.lat;
+        lon = data.lon;
         $('#city').html(city);
         $('#country').html(country);
       });
 
-      //get Darksky API dataType
+        //get Darksky API data
       function getWeatherData(lat, lon) {
+      
         var apiKey = "7b3519746f900ef3c719c52691caf255";
         var exclude = "?exclude=minutely,hourly,daily,alerts,flags";
         var unit ="?units=si";
@@ -39,14 +42,16 @@
             $('#currentWeather').html(description)
             $('#currentTemp').html(temperature);
           }
+
         });
       }
+      getWeatherData(lat, lon);
       </script>
 
-      <div id="city"></div>
-      <div id="country"></div>
-      <div id="currentWeather"></div>
-      <div id="currentTemp"></div>
+        <div id="city"></div>
+        <div id="country"></div>
+        <div id="currentWeather"></div>
+        <div id="currentTemp"></div>
 
     </body>
 </html>
