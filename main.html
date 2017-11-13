@@ -1,59 +1,47 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-        <title>My Weather App</title>
-        <script
-          src="https://code.jquery.com/jquery-2.2.4.min.js"
-          integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-          crossorigin="anonymous">
-        </script>
-    </head>
-    <body>
+  <head>
 
-      <script>
-        var lat;
-        var lon;
-      
-          // get city and country
-      $.getJSON("http://ip-api.com/json/?fields=city,country,lat,lon", function getCC(data) {
-        var city = data.city;
-        var country = data.country;
-        lat = data.lat;
-        lon = data.lon;
-        $('#city').html(city);
-        $('#country').html(country);
-        return lat;
-        return lon;
-      });
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>My Weather App</title>
+    <script
+      src="https://code.jquery.com/jquery-2.2.4.min.js"
+      integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+      crossorigin="anonymous">
+    </script>
+  </head>
 
-        //get Darksky API data
-      function getWeatherData(lat, lon) {
-      
-        var apiKey = "7b3519746f900ef3c719c52691caf255";
-        var exclude = "?exclude=minutely,hourly,daily,alerts,flags";
-        var unit ="?units=si";
-        var url = "https://api.darksky.net/forecast/" + apiKey + "/" + lat + "," + lon;
-        $.ajax({
-          url: url,
-          dataType: "jsonp",
-          success: function(weatherData) {
-            var icon = weatherData.currently.icon;
-            var description = weatherData.currently.summary;
-            var temperature = weatherData.currently.temperature;
-            $('#currentWeather').html(description)
-            $('#currentTemp').html(temperature);
+  <body>
+
+    <script>
+      $.getJSON("http://ip-api.com/json/?fields=city,country,lat,lon", function getUserLocation(data) {
+        $('#city').html(data.city);
+        $('#country').html(data.country);
+        var lat = data.lat;
+        var lon = data.lon;
+          function getWeatherData(lat, lon) {
+            var apiKey = "7b3519746f900ef3c719c52691caf255";
+            var exclude = "?exclude=minutely,hourly,daily,alerts,flags";
+            var unit ="?units=si";
+            var url = "https://api.darksky.net/forecast/" + apiKey + "/" + lat + "," + lon + exclude + unit;
+
+            $.ajax({
+              url: url,
+              dataType: "jsonp",
+              success: function(weatherData) {
+                $('#currentWeather').text(weatherData.currently.summary)
+                $('#currentTemp').val(weatherData.currently.temperature);
+              }
+            });
           }
+        getWeatherData();
+      });
+    </script>
 
-        });
-      }
-      getWeatherData(lat, lon);
-      </script>
+    <div id="city"></div>
+    <div id="country"></div>
+    <div id="currentWeather"></div>
+    <div id="currentTemp"></div>
 
-        <div id="city"></div>
-        <div id="country"></div>
-        <div id="currentWeather"></div>
-        <div id="currentTemp"></div>
-
-    </body>
+  </body>
 </html>
