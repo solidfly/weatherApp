@@ -9,42 +9,95 @@
       integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
       crossorigin="anonymous">
     </script>
+
   </head>
 
   <body>
 
     <script>
-      // get user location
+
+    if (confirm("Allow localisation") == true) {
       $.getJSON("http://ip-api.com/json/?fields=city,country,lat,lon", function getUserLocation(data) {
         $('#city').html(data.city);
         $('#country').html(data.country);
         var lat = data.lat;
         var lon = data.lon;
-        
-          // get local weather data
+
           function getWeatherData(lat, lon) {
-            var apiKey = "xxxx";
+            var apiKey = "7b3519746f900ef3c719c52691caf255";
             var exclude = "?exclude=minutely,hourly,daily,alerts,flags";
             var unit ="?units=si";
-            var url = "https://api.darksky.net/forecast/" + apiKey + "/" + lat + "," + lon + exclude + unit; 
-                
+            var url = "https://api.darksky.net/forecast/" + apiKey + "/" + lat + "," + lon;
+
             $.ajax({
               url: url,
               dataType: "jsonp",
               success: function(weatherData) {
-                $('#currentWeather').text(weatherData.currently.summary)
-                $('#currentTemp').val(weatherData.currently.temperature);
+                //change icon id to match weatherData
+                document.getElementById('icon').id = weatherData.currently.icon;
+                //define and play icon
+                var icons = new Skycons({"resizeClear": true}),
+                    list  = [
+                      "clear-day", "clear-night", "partly-cloudy-day",
+                      "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
+                      "fog"
+                    ],
+                    i;
+                for(i = list.length; i--; )
+                  icons.set(list[i], list[i]);
+                  icons.play();
+
+                // Display unmodified data
+                $('#currentWeather').text(weatherData.currently.summary);
+                $('#hourlyWeather').text(weatherData.hourly.summary);
+
+                // Create variables for celsius and farenheit
+                var temp = Math.round(weatherData.currently.temperature);
+                var f = temp + '°F';
+                var c = Math.round((temp - 32) * 5/9) + '°C';
+
+                // Display data in celsius
+                $('#currentTemp').text(c);
+                var s = weatherData.daily.summary;
+                var n = /\d+/;
+                var dailySumInC = s.replace((s.match(n)),Math.round(((s.match(n) - 32)) * 5/9)).replace(/°F/,'°C');
+                $('#dailyWeather').text(dailySumInC);
+
+                // convert temperature
+                $('#convertTemp').on('click',function(event){
+                  if ('#dailyWeather'.text = dailySumInC) {
+                    $('#dailyWeather').text(weatherData.daily.summary);
+                  } else {
+                    $('#dailyWeather').text = dailySumInC;
+                  };
+                  if ('#currentTemp'.text = c) {
+                    $('#currentTemp').text(f);
+                  } else {
+                    $('#currentTemp').text(c);
+                  }
+                });
               }
             });
           }
         getWeatherData(lat, lon);
       });
+    } else {
+      alert("Please refresh and allow localisation");
+    }
     </script>
 
     <div id="city"></div>
     <div id="country"></div>
-    <div id="currentWeather"></div>
+    <figure class="icons">
+            <canvas id="icon" width="64" height="64">
+            </canvas>
+          </figure>
     <div id="currentTemp"></div>
+    <button id="convertTemp">convertTemp</button>
+    <div id="currentWeather"></div>
+    <div id="hourlyWeather"></div>
+    <div id="dailyWeather"></div>
 
+<script src="skycons.js"></script>
   </body>
 </html>
