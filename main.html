@@ -52,28 +52,32 @@
                 $('#hourlyWeather').text(weatherData.hourly.summary);
 
                 // Create variables for celsius and farenheit
-                var temp = Math.round(weatherData.currently.temperature);
-                var f = temp + '°F';
+                var temp = Math.round(weatherData.currently.temperature)
+                var f = Math.round(weatherData.currently.temperature) + '°F';
                 var c = Math.round((temp - 32) * 5/9) + '°C';
 
-                // Display data in celsius
+                // Display temperature in celsius
                 $('#currentTemp').text(c);
-                var s = weatherData.daily.summary;
-                var n = /\d+/;
-                var dailySumInC = s.replace((s.match(n)),Math.round(((s.match(n) - 32)) * 5/9)).replace(/°F/,'°C');
-                $('#dailyWeather').text(dailySumInC);
 
-                // convert temperature
+                // Display summary in celsius
+                var fSum = weatherData.daily.summary;
+                var n = /\d+/;
+                var cSum = fSum.replace((fSum.match(n)),Math.round(((fSum.match(n) - 32)) * 5/9)).replace(/°F/,'°C');
+                $('#dailyWeather').text(cSum);
+
+                // convert temperature button
                 $('#convertTemp').on('click',function(event){
-                  if ('#dailyWeather'.text = dailySumInC) {
-                    $('#dailyWeather').text(s);
-                  } else {
-                    $('#dailyWeather').text = dailySumInC;
-                  };
+                  //convert temperature
                   if ('#currentTemp'.text = c) {
                     $('#currentTemp').text(f);
                   } else {
-                    $('#currentTemp').text(c);
+                    $('#currentTemp').text = c;
+                  };
+                  //convert summary
+                  if ('#dailyWeather'.text = cSum) {
+                    $('#dailyWeather').text(fSum);
+                  } else {
+                    $('#dailyWeather').text(cSum);
                   }
                 });
               }
