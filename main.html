@@ -25,9 +25,9 @@
 
           function getWeatherData(lat, lon) {
             var apiKey = "YOURAPIKEY";
-            var exclude = "?exclude=minutely,hourly,daily,alerts,flags";
+            var exclude = "?exclude=minutely,alerts,flags";
             var unit ="?units=si";
-            var url = "https://api.darksky.net/forecast/" + apiKey + "/" + lat + "," + lon;
+            var url = "https://api.darksky.net/forecast/" + apiKey + "/" + lat + "," + lon + exclude + unit;
 
             $.ajax({
               url: url,
