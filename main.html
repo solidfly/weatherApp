@@ -50,10 +50,6 @@
                   icons.set(list[i], list[i]);
                   icons.play();
 
-                // Display unmodified data
-                $('#currentWeather').text(weatherData.currently.summary);
-                $('#hourlyWeather').text(weatherData.hourly.summary);
-
                 // Display background-image
                 var icon = weatherData.currently.icon;
                 switch (icon) {
@@ -79,6 +75,10 @@
                     break;
                   default:
                 }
+
+                // Display unmodified data
+                $('#currentWeather').text(weatherData.currently.summary);
+                $('#hourlyWeather').text(weatherData.hourly.summary);
 
                 // Create variables for celsius and farenheit
                 var f = Math.round(weatherData.currently.temperature);
