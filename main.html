@@ -9,6 +9,8 @@
       integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
       crossorigin="anonymous">
     </script>
+    <link rel="stylesheet" href="styles.css">
+
 
   </head>
 
@@ -18,13 +20,14 @@
 
     if (confirm("Allow localisation") == true) {
       $.getJSON("http://ip-api.com/json/?fields=city,country,lat,lon", function getUserLocation(data) {
+        //Display city & country
         $('#city').html(data.city);
         $('#country').html(data.country);
         var lat = data.lat;
         var lon = data.lon;
 
           function getWeatherData(lat, lon) {
-            var apiKey = "YOURAPIKEY";
+            var apiKey = "7b3519746f900ef3c719c52691caf255";
             var exclude = "?exclude=minutely,alerts,flags";
             var unit ="?units=si";
             var url = "https://api.darksky.net/forecast/" + apiKey + "/" + lat + "," + lon + exclude + unit;
@@ -51,13 +54,38 @@
                 $('#currentWeather').text(weatherData.currently.summary);
                 $('#hourlyWeather').text(weatherData.hourly.summary);
 
+                // Display background-image
+                var icon = weatherData.currently.icon;
+                switch (icon) {
+                  case "clear-day": $('body').css('background-image', 'url("images/clear-day.jpg")');
+                    break;
+                  case "clear-night": $('body').css('background-image', 'url("images/clear-night.jpg")');
+                    break;
+                  case "partly-cloudy-day": $('body').css('background-image', 'url("images/partly-cloudy-day.jpg")');
+                    break;
+                  case "partly-cloudy-night": $('body').css('background-image', 'url("images/partly-cloudy-night.jpg")');
+                    break;
+                  case "cloudy": $('body').css('background-image', 'url("images/cloudy.jpg")');
+                    break;
+                  case "rain": $('body').css('background-image', 'url("images/rain.jpg")');
+                    break;
+                  case "sleet": $('body').css('background-image', 'url("images/sleet.jpg")');
+                    break;
+                  case "snow": $('body').css('background-image', 'url("images/snow.jpg")');
+                    break;
+                  case "wind": $('body').css('background-image', 'url("images/wind.jpg")');
+                    break;
+                  case "fog": $('body').css('background-image', 'url("images/fog.jpg")');
+                    break;
+                  default:
+                }
+
                 // Create variables for celsius and farenheit
-                var temp = Math.round(weatherData.currently.temperature)
-                var f = Math.round(weatherData.currently.temperature) + '°F';
-                var c = Math.round((temp - 32) * 5/9) + '°C';
+                var f = Math.round(weatherData.currently.temperature);
+                var c = Math.round((f - 32) * 5/9);
 
                 // Display temperature in celsius
-                $('#currentTemp').text(c);
+                $('#currentTemp').text(c + "°");
 
                 // Display summary in celsius
                 var fSum = weatherData.daily.summary;
@@ -65,20 +93,19 @@
                 var cSum = fSum.replace((fSum.match(n)),Math.round(((fSum.match(n) - 32)) * 5/9)).replace(/°F/,'°C');
                 $('#dailyWeather').text(cSum);
 
-                // convert temperature button
+                // convert temperature button click event
                 $('#convertTemp').on('click',function(event){
-                  //convert temperature
+                  //convert temperature and summary
                   if ('#currentTemp'.text = c) {
-                    $('#currentTemp').text(f);
-                  } else {
-                    $('#currentTemp').text = c;
-                  };
-                  //convert summary
-                  if ('#dailyWeather'.text = cSum) {
+                    $('#currentTemp').text(f + "°");
+                    $('#convertTemp').text("F");
                     $('#dailyWeather').text(fSum);
+
                   } else {
+                    $('#currentTemp').text(c + "°");
+                    $('#convertTemp').text("C");
                     $('#dailyWeather').text(cSum);
-                  }
+                  };
                 });
               }
             });
@@ -90,18 +117,25 @@
     }
     </script>
 
-    <div id="city"></div>
-    <div id="country"></div>
-    <figure class="icons">
-            <canvas id="icon" width="64" height="64">
-            </canvas>
-          </figure>
-    <div id="currentTemp"></div>
-    <button id="convertTemp">convertTemp</button>
-    <div id="currentWeather"></div>
-    <div id="hourlyWeather"></div>
-    <div id="dailyWeather"></div>
 
-<script src="skycons.js"></script>
+    <div id="container">
+      <div id="city"></div>
+      <div id="country"></div>
+      <figure class="icons">
+        <canvas id="icon" width="256" height="256">
+        </canvas>
+      </figure>
+      <div id="tempContainer">
+        <div id="currentTemp"></div>
+        <button id="convertTemp">C</button>
+      </div>
+      <div id="currentWeather"></div>
+      <div id="hourlyWeather"></div>
+      <div id="dailyWeather"></div>
+    </div>
+
+
+
+  <script src="skycons.js"></script>
   </body>
 </html>
