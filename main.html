@@ -51,30 +51,39 @@
 
                 // Display background-image
                 var icon = weatherData.currently.icon;
-                switch (icon) {
-                  case "clear-day": $('body').css('background-image', 'url("images/clear-day.jpg")');
-                    break;
-                  case "clear-night": $('body').css('background-image', 'url("images/clear-night.jpg")');
-                    break;
-                  case "partly-cloudy-day": $('body').css('background-image', 'url("images/partly-cloudy-day.jpg")');
-                    break;
-                  case "partly-cloudy-night": $('body').css('background-image', 'url("images/partly-cloudy-night.jpg")');
-                    break;
-                  case "cloudy": $('body').css('background-image', 'url("images/cloudy.jpg")');
-                    break;
-                  case "rain": $('body').css('background-image', 'url("images/rain.jpg")');
-                    break;
-                  case "sleet": $('body').css('background-image', 'url("images/sleet.jpg")');
-                    break;
-                  case "snow": $('body').css('background-image', 'url("images/snow.jpg")');
-                    break;
-                  case "wind": $('body').css('background-image', 'url("images/wind.jpg")');
-                    break;
-                  case "fog": $('body').css('background-image', 'url("images/fog.jpg")');
-                    break;
-                  default:
-                }
-
+        switch (icon) {
+          case "clear-day":
+            $("body").css("background-image", 'url("https://i.imgur.com/OxqixG2.png")');
+            break;
+          case "clear-night":
+            $("body").css("background-image", 'url("https://i.imgur.com/HQPdYEP.png")');
+            break;
+          case "partly-cloudy-day":
+            $("body").css("background-image", 'url("https://i.imgur.com/U4IlTTN.png")');
+            break;
+          case "partly-cloudy-night":
+            $("body").css("background-image", 'url("https://i.imgur.com/PLiOXi1.png")');
+            break;
+          case "cloudy":
+            $("body").css("background-image", 'url("https://i.imgur.com/y0eObL0.png")');
+            break;
+          case "rain":
+            $("body").css("background-image", 'url("https://i.imgur.com/QQcDGK3.png")');
+            break;
+          case "sleet":
+            $("body").css("background-image", 'url("https://i.imgur.com/GKklntr.png")');
+            break;
+          case "snow":
+            $("body").css("background-image", 'url("https://i.imgur.com/jTMi6sy.png")');
+            break;
+          case "wind":
+            $("body").css("background-image", 'url("https://i.imgur.com/Z1aVGzo.png")');
+            break;
+          case "fog":
+            $("body").css("background-image", 'url("https://i.imgur.com/2M00Pd4.png")');
+            break;
+          default:
+        }
                 // Display unmodified data
                 $('#currentWeather').text(weatherData.currently.summary);
                 $('#hourlyWeather').text(weatherData.hourly.summary);
